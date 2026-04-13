@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    // 3 monkeys, 7 days
+    int monkeyBusiness[3][7];
+
+    int totalFood = 0;              
+    int lowestFood, highestFood;    
+
+    // Get input from user
+    for (int monkey = 0; monkey < 3; monkey++) {
+        for (int day = 0; day < 7; day++) {
+            int value;
+
+            cout << "Enter the pounds of food eaten by monkey "
+                 << monkey + 1 << " on day " << day + 1 << ": ";
+            cin >> value;
+
+            // Input validation: reject negative numbers
+            while (value < 0) {
+                cout << "Negative values are not allowed. Please enter a non-negative value: ";
+                cin >> value;
+            }
+
+         
+            monkeyBusiness[monkey][day] = value;
+
+            totalFood += value;
+
+            // Initialize lowest and highest 
+            if (monkey == 0 && day == 0) {
+                lowestFood = value;
+                highestFood = value;
+            }
+
+            if (value < lowestFood) {
+                lowestFood = value;
+            }
+
+            if (value > highestFood) {
+                highestFood = value;
+            }
+        }
+    }
+
+    // Calculate average 
+    double averagePerDay = totalFood / 7.0;
+
+    // Display report
+    cout << endl;
+    cout << "Weekly Monkey Food Report" << endl;
+    cout << "------------------------" << endl;
+    cout << "Average amount of food eaten per day by the whole family: "
+         << averagePerDay << " pounds" << endl;
+    cout << "Least amount of food eaten during the week by any one monkey: "
+         << lowestFood << " pounds" << endl;
+    cout << "Greatest amount of food eaten during the week by any one monkey: "
+         << highestFood << " pounds" << endl;
+
+    return 0;
+}
