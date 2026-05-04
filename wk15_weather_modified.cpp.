@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+// ENUM for months
+enum Month {
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE,
+    JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+};
+
+// STRUCT
+struct MonthlyWeather
+{
+    double totalrainfall;
+    int hightemperature;
+    int lowtemperature;
+    double averagetemperature;
+};
+
+int main()
+{
+    MonthlyWeather month[12];
+
+    string monthnames[12] = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
+    double totalRainfall = 0;
+    double totalAverageTemp = 0;
+
+    int highestTemp;
+    int lowestTemp;
+    Month highestMonth = JANUARY;
+    Month lowestMonth = JANUARY;
+
+    cout << "=== Weather Statistics Program ===" << endl;
+
+    // INPUT LOOP USING ENUM
+    for (Month m = JANUARY; m <= DECEMBER; m = static_cast<Month>(m + 1))
+    {
+        cout << "\nEnter data for " << monthnames[m] << ":" << endl;
+
+        cout << "  Total rainfall (in inches): ";
+        cin >> month[m].totalrainfall;
+
+        cout << "  High temperature (F): ";
+        cin >> month[m].hightemperature;
+
+        while (month[m].hightemperature < -100 || month[m].hightemperature > 140)
+        {
+            cout << "  Invalid. Enter a temperature between -100 and 140: ";
+            cin >> month[m].hightemperature;
+        }
+
+        cout << "  Low temperature (F): ";
+        cin >> month[m].lowtemperature;
+
+        while (month[m].lowtemperature < -100 || month[m].lowtemperature > 140)
+        {
+            cout << "  Invalid. Enter a temperature between -100 and 140: ";
+            cin >> month[m].lowtemperature;
+        }
+
+        month[m].averagetemperature =
+            (month[m].hightemperature + month[m].lowtemperature) / 2.0;
+
+        cout << fixed << setprecision(1);
+        cout << "  Average temperature automatically calculated: "
+             << month[m].averagetemperature << endl;
+    }
+
+    // INITIALIZE
+    highestTemp = month[JANUARY].hightemperature;
+    lowestTemp = month[JANUARY].lowtemperature;
+
+    // CALCULATION LOOP USING ENUM
+    for (Month m = JANUARY; m <= DECEMBER; m = static_cast<Month>(m + 1))
+    {
+        totalRainfall += month[m].totalrainfall;
+        totalAverageTemp += month[m].averagetemperature;
+
+        if (month[m].hightemperature > highestTemp)
+        {
+            highestTemp = month[m].hightemperature;
+            highestMonth = m;
+        }
+
+        if (month[m].lowtemperature < lowestTemp)
+        {
+            lowestTemp = month[m].lowtemperature;
+            lowestMonth = m;
+        }
+    }
+
+    cout << "\n\n=== Annual Weather Summary ===" << endl;
+
+    cout << fixed << setprecision(1);
+    cout << "\nTotal rainfall for the year: " << totalRainfall << " inches" << endl;
+
+    cout << fixed << setprecision(2);
+    cout << "Average monthly rainfall: " << totalRainfall / 12 << " inches" << endl;
+
+    cout << "\nHighest temperature: " << highestTemp
+         << " F (" << monthnames[highestMonth] << ")" << endl;
+
+    cout << "Lowest temperature: " << lowestTemp
+         << " F (" << monthnames[lowestMonth] << ")" << endl;
+
+    cout << fixed << setprecision(1);
+    cout << "\nAverage of all monthly average temperatures: "
+         << totalAverageTemp / 12 << " F" << endl;
+
+    return 0;
+}
